@@ -16,7 +16,10 @@ router.post("/", async (req: AuthRequest, res) => {
   const parsed = createApplicationSchema.safeParse(req.body);
 
   if (!parsed.success) {
-    return res.status(400).json({ error: parsed.error.flatten() });
+    return res.status(400).json({
+      error: "Invalid Input value...",
+      fieldErrors: parsed.error.flatten().fieldErrors,
+    });
   }
 
   const { company, role, status, link, notes } = parsed.data;
@@ -28,12 +31,13 @@ router.post("/", async (req: AuthRequest, res) => {
       ...(status ? { status } : {}),
       ...(link ? { link } : {}),
       ...(notes ? { notes } : {}),
-      userId: req.userId!, 
+      userId: req.userId!,
     },
   });
 
-  res.status(201).json(application);
+  return res.status(201).json(application);
 });
+
 
 router.get("/", async (req: AuthRequest, res) => {
     const { status, search } = req.query;
