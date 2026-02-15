@@ -1,0 +1,17 @@
+version: "3.9"
+services:
+  db:
+    image: postgres:16
+    container_name : jobflow_db
+    restart: always
+    environment:
+      POSTGRES_USER: jobflow
+      POSTGRES_PASSWORD: jobflowpass
+      POSTGRES_DB: jobflowdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - jobflow_pgdata:/var/lib/postgresql/data
+
+volumes:
+  jobflow_pgdata:
