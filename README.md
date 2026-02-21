@@ -60,3 +60,72 @@ Health Check:
 - Frontend: Vercel
 - Backend: Render
 - Database: Neon (Postgres)
+
+## Setup and Installation
+
+### Clone the repository
+git clone <your-repo-url>
+cd jobflow
+
+### Backend 
+
+cd backend
+
+npm install
+
+docker compose up -d
+
+backend/.env
+Add:
+DATABASE_URL="postgresql://postgres:postgres@localhost:5432/jobflow"
+JWT_SECRET="your_local_secret_key"
+PORT=3001
+
+npx prisma migrate dev --name init
+npx prisma generate
+
+npm run dev
+http://localhost:3001
+GET http://localhost:3001/health
+
+### Frontend 
+
+cd ../frontend
+
+npm install
+
+frontend/.env
+
+Add:
+VITE_API_URL=http://localhost:3001
+
+npm run dev
+
+http://localhost:5173
+
+Render build command:
+npm install && npm run build && npx prisma generate && npx prisma migrate deploy
+
+Start Command:
+npm start
+
+## Structure
+
+jobflow/
+  backend/
+    src/
+      routes/
+      middleware/
+      schemas/
+      server.ts
+    prisma/
+      schema.prisma
+    package.json
+
+  frontend/
+    src/
+      components/
+      pages/
+      api.ts
+    package.json
+
